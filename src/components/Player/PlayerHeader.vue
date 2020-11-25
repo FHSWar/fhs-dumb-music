@@ -1,7 +1,7 @@
 <template>
   <div class="header" @click="changeTheme">
     <div class="header-left"></div>
-    <p class="header-title">天工会</p>
+    <p class="header-title">摸鱼 club</p>
     <div class="header-right"></div>
   </div>
 </template>

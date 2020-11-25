@@ -1,14 +1,18 @@
 <template>
   <div id="app">
     <Header></Header>
+    <Tabbar></Tabbar>
+    <router-view></router-view> <!-- 不给路由出口哪有得显示啊弟弟 -->
   </div>
 </template>
 <script>
 import Header from './components/Player/PlayerHeader'
+import Tabbar from './components/Player/PlayerTabBar'
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    Tabbar
   }
 }
 </script>

@@ -12,9 +12,9 @@ $bgc-theme: #567c73;//背景主题颜色默认(moss)
 $bgc-theme1: #13a8c0;//背景主题颜色1(好看蓝)
 $bgc-theme2: #333;//背景主题颜色2(夜间模式)
 
-// 背景颜色规范(次要)
-$bgc-sub-theme: #466c63;//背景主题颜色默认
-$bgc-sub-theme1: #10a0b0;//背景主题颜色1
+// 背景颜色规范(次要) 给选项卡栏用的
+$bgc-sub-theme: #f5f5f5;//背景主题颜色默认
+$bgc-sub-theme1: #f5f5f5;//背景主题颜色1
 $bgc-sub-theme2: #444;//背景主题颜色2(夜间模式)
 
 // 字体颜色规范(默认)
@@ -24,10 +24,10 @@ $font-color-theme2 : #ddd;//字体主题颜色2(夜间模式)
 
 // 字体颜色规范(激活)
 $font-active-color-theme : #567c73;//字体主题颜色默认(网易红)
-$font-active-color-theme1 : rgba(34,213,156,1);//字体主题颜色1(QQ绿)
+$font-active-color-theme1 : #13a8c0;//字体主题颜色1(QQ绿)
 $font-active-color-theme2 : #ffcc33;//字体主题颜色2(夜间模式)
 
 // 边框颜色
 $border-color-theme : #567c73;//边框主题颜色默认(网易)
-$border-color-theme1 : rgba(34,213,156,1);//边框主题颜色1(QQ)
+$border-color-theme1 : #13a8c0;//边框主题颜色1(QQ)
 $border-color-theme2 : #ffcc33;//边框主题颜色2(夜间模式)
