@@ -54,7 +54,7 @@
 				window.innerWidth / 7.5 + "px";
 			document.documentElement.setAttribute(
 				"data-dpr",
-				window.devicePixelRatio + ""
+				parseInt(window.devicePixelRatio) + ""
 			);
 			document.documentElement.setAttribute("data-theme", "theme");
 		</script>
