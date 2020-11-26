@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="wrapper" ref="wrapper">
     <Header></Header>
     <Tabbar></Tabbar>
     <router-view></router-view> <!-- 不给路由出口哪有得显示啊弟弟 -->

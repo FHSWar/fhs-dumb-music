@@ -25,7 +25,7 @@
 }
 
 // 根据属性选择器来设置背景颜色
-@mixin bg_color(){ // 不知道这里咋代码里会没参, 现在有了 美汁汁
+@mixin bg_color(){
   background: $bgc-theme;
   [data-theme=theme1] & { // 如果标签属性 data-theme (用 setAttribute 自定义的)取值为 theme1, 就更换背景色为指定色
     background: $bgc-theme1;

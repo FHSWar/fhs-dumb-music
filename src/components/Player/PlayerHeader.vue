@@ -37,6 +37,8 @@ export default {
   @include bg_color();
   display: flex;
   justify-content: space-between;
+  position: relative;
+  z-index: 3; // 动不动就 666, 999 太不优雅了
   .header-left, .header-right{
     width: 84px;
     height: 84px;
