@@ -9,22 +9,27 @@ import VueRouter from 'vue-router'
 
 // 实现Vue组件的按需加载
 const Recommend = (resolve) => {
-  import('../views/Recommend').then((module) => {
+  import('../views/Home-Recommend').then((module) => {
+    resolve(module)
+  })
+}
+const Detail = (resolve) => {
+  import('../views/Detail-SongList').then((module) => {
     resolve(module)
   })
 }
 const Singer = (resolve) => {
-  import('../views/Singer').then((module) => {
+  import('../views/Home-Singer').then((module) => {
     resolve(module)
   })
 }
 const Rank = (resolve) => {
-  import('../views/Rank').then((module) => {
+  import('../views/Home-Rank').then((module) => {
     resolve(module)
   })
 }
 const Search = (resolve) => {
-  import('../views/Search').then((module) => {
+  import('../views/Home-Search').then((module) => {
     resolve(module)
   })
 }
@@ -33,6 +38,16 @@ Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/recommend' }, // 这个如果不写, 进来时就出现所有选项卡都没选中的现象, 不理想
+  {
+    path: '/recommend',
+    component: Recommend,
+    children: [
+      {
+        path: 'detail/:id/:type',
+        component: Detail
+      }
+    ]
+  },
   { path: '/recommend', component: Recommend },
   { path: '/singer', component: Singer },
   { path: '/rank', component: Rank },

@@ -6,8 +6,8 @@
   </div>
 </template>
 <script>
-import Header from './components/Player/PlayerHeader'
-import Tabbar from './components/Player/PlayerTabBar'
+import Header from './components/Home/Home-PlayerHeader'
+import Tabbar from './components/Home/Home-PlayerTabBar'
 export default {
   name: 'App',
   components: {

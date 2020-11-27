@@ -11,13 +11,16 @@ export default {
   mounted () {
     this.iscroll = new IScroll(this.$refs.wrapper, {
       mouseWheel: true,
-      scrollbars: true,
-      // 解决拖拽卡顿问题
-      scrollX: false,
-      scrollY: true,
-      disablePointer: true,
-      disableTouch: false,
-      disableMouse: true
+      scrollbars: false,
+      // // 解决拖拽卡顿问题
+      // scrollX: true,
+      // scrollY: true,
+      // disablePointer: false, // 这个要是禁用了就跳转不了了呀
+      // disableTouch: false,
+      // disableMouse: false,
+      probeType: 3,
+      preventDefault: false,
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
     })
     // setTimeout(() => {
     //   console.log(this.iscroll.maxScrollY)
@@ -48,6 +51,15 @@ export default {
     第二个参数: 告诉观察者对象我们需要观察什么内容
     * */
     observer.observe(this.$refs.wrapper, config)
+  },
+  methods: {
+    // 提供一个监听滚动距离的方法给外界使用
+    scrolling (fn) {
+      this.iscroll.on('scroll', function () {
+        // console.log(this.y)
+        fn(this.y)
+      })
+    }
   }
 }
 </script>

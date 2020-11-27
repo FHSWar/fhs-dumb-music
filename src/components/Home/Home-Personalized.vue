@@ -4,7 +4,7 @@
       <h3>{{title}}</h3>
     </div>
     <div class="personalized-list">
-      <div class="item" v-for="value in personalized" :key="value.id">
+      <div class="item" v-for="value in personalized" :key="value.id" @click="selectItem(value.id)">
         <!-- <img :src="value.picUrl" alt=""> -->
         <img v-lazy="value.picUrl" alt="">
         <p>{{value.name}}</p>
@@ -26,6 +26,20 @@ export default {
       type: String,
       default: '',
       required: true
+    },
+    type: {
+      type: String,
+      default: '',
+      required: true
+    }
+  },
+  methods: {
+    selectItem (id) {
+      // console.log(id)
+      this.$emit('select', id, this.type)
+      // this.$router.push({
+      //   path: `/recommend/detail/${id}`
+      // })
     }
   }
 }
@@ -80,9 +94,9 @@ export default {
         border-radius: 15px;
       }
       p{
-        padding: 0 3px;
+        padding: 5px 3px;
         text-align: center;
-        @include clamp(1);
+        @include no-wrap();
         @include font_color();
         @include font_size($font_medium_s);
       }

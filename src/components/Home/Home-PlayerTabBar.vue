@@ -30,8 +30,9 @@ export default {
   @include bg_sub_color();
   display: flex;
   justify-content: space-around;
-  position: relative;
-  z-index: 3;
+  // 这个是为了给滚动的正常显示做配套, 既然滚动区域有 overflow: hidden; 这个也就不再需要了
+  //position: relative;
+  //z-index: 3;
   .item{
     span{
       line-height: 84px;
