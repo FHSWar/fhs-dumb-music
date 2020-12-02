@@ -13,8 +13,8 @@
 <script>
 import { getPlayList, getAlbum } from '@/api'
 import ScrollView from '@/components/ScrollView'
-import SubHeader from '@/components/Detail/Detail-SongListHeader'
-import DetailTop from '@/components/Detail/Detail-SongListTop'
+import SubHeader from '@/components/Detail/Detail-Header'
+import DetailTop from '@/components/Detail/Detail-Top'
 import DetailBottom from '@/components/Detail/Detail-SongListBottom'
 
 export default {

@@ -9,12 +9,15 @@
           里面如果是字符串就还得用引号代表字符串,
            单引号或者反引号都可以
            -->
+          <!-- 最新专辑 -->
           <Personalized
             :personalized="albums"
             :title="'最新专辑'"
             @select="fatherSelectItem"
             :type="'album'"></Personalized>
+          <!-- 热曲列表 -->
           <SongList :songs="songs"></SongList>
+          <!-- 推荐歌单 -->
           <Personalized
             :personalized="personalized"
             :title="'推荐歌单'"
@@ -23,7 +26,11 @@
         </div>
       </ScrollView>
     </div>
-    <transition>
+<!--    <transitions>-->
+    <transition
+      :css="false"
+      @enter="enter"
+      @leave="leave">
       <router-view></router-view>
     </transition>
   </div>
@@ -31,10 +38,12 @@
 
 <script>
 import { getBanner, getPersonalized, getNewAlbum, getNewSong } from '../api/index'
-import Banner from '../components/Home/Home-PlayerBanner'
+import Banner from '../components/Home/Home-Banner'
 import Personalized from '../components/Home/Home-Personalized'
 import SongList from '../components/Home/Home-SongList'
 import ScrollView from '../components/ScrollView'
+import Velocity from 'velocity-animate'
+import 'velocity-animate/velocity.ui'
 
 export default {
   name: 'Recommend',
@@ -56,6 +65,16 @@ export default {
     fatherSelectItem (id, type) {
       this.$router.push({
         path: `/recommend/detail/${id}/${type}`
+      })
+    },
+    enter (el, done) {
+      Velocity(el, 'transition.slideLeftIn', { duration: 800 }, function () {
+        done()
+      })
+    },
+    leave (el, done) {
+      Velocity(el, 'transition.slideLeftOut', { duration: 250 }, function () {
+        done()
       })
     }
   },
@@ -111,22 +130,23 @@ export default {
     }
   }
 
-  .v-enter{
-    transform: translateX(-100%);
-  }
-  .v-enter-to{
-    transform: translateX(0%);
-  }
-  .v-enter-active{
-    transition: transform 0.5s;
-  }
-  .v-leave{
-    transform: translateX(0%);
-  }
-  .v-leave-to{
-    transform: translateX(-100%);
-  }
-  .v-leave-active{
-    transition: transform 0.5s;
-  }
+  // 过于生硬, 换成 velocity-animate 的 Plugins 来做
+  //.v-enter{
+  //  transform: translateX(-100%);
+  //}
+  //.v-enter-to{
+  //  transform: translateX(0%);
+  //}
+  //.v-enter-active{
+  //  transition: transform 0.5s;
+  //}
+  //.v-leave{
+  //  transform: translateX(0%);
+  //}
+  //.v-leave-to{
+  //  transform: translateX(-100%);
+  //}
+  //.v-leave-active{
+  //  transition: transform 0.5s;
+  //}
 </style>

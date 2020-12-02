@@ -50,18 +50,22 @@ export default {
   position: relative;
   z-index: 999;
   .header-left, .header-right{
-    width: 84px;
-    height: 84px;
+    width: 48px;
+    height: 48px;
     /*background: #000;*/
-    margin-top: 8px;
   }
   .header-left{
+    margin-top: 21px;
+    padding-left: 15px;
     @include bg_img('../../assets/images/back');
   }
   .header-right{
+    margin-top: 24px;
+    padding-right: 10px;
     @include bg_img('../../assets/images/more')
   }
   .header-title{
+    width: 60%; // 不做限制的话, 一旦标题太长看起来就很丑
     text-align: center;
     line-height: 100px;
     color: #fff;

@@ -3,16 +3,20 @@
     <Header></Header>
     <Tabbar></Tabbar>
     <router-view></router-view> <!-- 不给路由出口哪有得显示啊弟弟 -->
+    <Player></Player>
   </div>
 </template>
 <script>
-import Header from './components/Home/Home-PlayerHeader'
-import Tabbar from './components/Home/Home-PlayerTabBar'
+import Header from './components/Home/Home-Header'
+import Tabbar from './components/Home/Home-TabBar'
+import Player from './views/Player'
+
 export default {
   name: 'App',
   components: {
     Header,
-    Tabbar
+    Tabbar,
+    Player
   }
 }
 </script>
