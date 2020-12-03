@@ -5,8 +5,9 @@
     </div>
     <ul class="song-list">
 <!--      <li v-for="value in songs" :key="value.id" class="item">-->
-      <li v-for="value in songs" :key="value.id" class="item" @click="selectMusic">
-        <!-- <img :src="value.song.album.picUrl" alt=""> -->
+<!--      <li v-for="value in songs" :key="value.id" class="item" @click="selectMusic">-->
+      <li v-for="value in songs" :key="value.id" class="item" @click="selectMusic(value.id)">
+      <!-- <img :src="value.song.album.picUrl" alt=""> -->
         <img v-lazy="value.song.album.picUrl" alt="">
         <div>
           <h3>{{value.name}}</h3>
@@ -31,10 +32,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setFullScreen'
+      'setFullScreen',
+      'setSongDetail'
     ]),
-    selectMusic () {
+    // selectMusic () {
+    selectMusic (id) {
       this.setFullScreen(true)
+      this.setSongDetail([id])
     }
   }
 }

@@ -17,21 +17,29 @@
             <p v-else>随机播放</p>
           </div>
           <div class="top-right">
-            <div class="del"></div>
+<!--            <div class="del"></div>-->
+            <div class="del" @click="delAll"></div>
           </div>
         </div>
         <div class="player-middle">
-          <ScrollView>
-            <ul>
-              <li class="item">
-                <div class="item-left">
+<!--          <ScrollView>-->
+          <ScrollView ref="scrollView">
+<!--            <ul>-->
+            <ul ref="play">
+            <!--              <li class="item">-->
+<!--              <li class="item" v-for="value in songs" :key="value.id">-->
+              <li class="item" v-for="(value, index) in songs" :key="value.id">
+              <div class="item-left">
 <!--                  <div class="item-play"></div>-->
-                  <div class="item-play" @click="play" ref="play"></div>
-                  <p>演员</p>
-                </div>
+<!--                  <div class="item-play" @click="play" ref="play"></div>-->
+                <div class="item-play" @click="play" v-show="currentIndex === index"></div>
+                <!--                  <p>silence</p>-->
+                <p>{{value.name}}</p>
+              </div>
                 <div class="item-right">
                   <div class="item-favorite"></div>
-                  <div class="item-del"></div>
+<!--                  <div class="item-del"></div>-->
+                  <div class="item-del" @click="del(index)"></div>
                 </div>
               </li>
             </ul>
@@ -68,7 +76,8 @@ export default {
       'setIsPlaying',
       'setModeType',
       'setMiniPlayer',
-      'setListPlayer'
+      'setListPlayer',
+      'setDelSong'
     ]),
     // show () {
     //   this.isShow = true
@@ -90,6 +99,12 @@ export default {
         this.setModeType(modeType.loop)
       }
     },
+    del (index) {
+      this.setDelSong(index)
+    },
+    delAll () {
+      this.setDelSong()
+    },
     enter (el, done) {
       Velocity(el, 'transition.slideUpIn', { duration: 25 }, function () {
         done()
@@ -105,7 +120,9 @@ export default {
     ...mapGetters([
       'isPlaying',
       'modeType',
-      'isShowListPlayer'
+      'isShowListPlayer',
+      'songs',
+      'currentIndex'
     ])
   },
   watch: {
@@ -126,6 +143,11 @@ export default {
       } else if (newValue === modeType.random) {
         this.$refs.mode.classList.remove('one')
         this.$refs.mode.classList.add('random')
+      }
+    },
+    isShowListPlayer (newValue, oldValue) {
+      if (newValue) {
+        this.$refs.scrollView.refresh()
       }
     }
   }
@@ -181,6 +203,17 @@ export default {
       }
     }
     .player-middle{
+      height: 700px;
+      overflow: hidden;
+      ul{ // 一个 ref 只能给一个 dom 元素, 于是这里给 li 不合适, 应该给 ul
+        &.active{
+          .item{
+            .item-play{
+              @include bg_img('../../assets/images/small_pause');
+            }
+          }
+        }
+      }
       .item{
         border-top: 1px solid #ccc;
         height: 100px;
@@ -198,9 +231,9 @@ export default {
             margin-right: 20px;
             //@include bg_img('../../assets/images/small_play')
             @include bg_img('../../assets/images/small_play');
-            &.active{
-              @include bg_img('../../assets/images/small_pause');
-            }
+            //&.active{
+            //  @include bg_img('../../assets/images/small_pause');
+            //}
           }
           p{
             @include font_size($font_medium_s);

@@ -1,11 +1,13 @@
 <template>
   <ul class="detail-bottom">
-    <li class="bottom-top">
-      <div class="bottom-icon"></div>
+<!--    <li class="bottom-top">-->
+    <li class="bottom-top" @click="selectAllMusic">
+    <div class="bottom-icon"></div>
       <div class="bottom-title">播放全部</div>
     </li>
 <!--    <li v-for="value in playlist" :key="value.id" class="item">-->
-    <li v-for="value in playlist" :key="value.id" class="item" @click="selectMusic">
+<!--    <li v-for="value in playlist" :key="value.id" class="item" @click="selectMusic">-->
+    <li v-for="value in playlist" :key="value.id" class="item" @click="selectMusic(value.id)">
       <h3>{{value.name}}</h3>
       <p>{{value.al.name}} - {{value.ar[0].name}}</p>
     </li>
@@ -25,11 +27,21 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setFullScreen'
+      'setFullScreen',
+      'setSongDetail'
     ]),
-    selectMusic () {
+    // selectMusic () {
+    selectMusic (id) { // 我应该就是错在这里没传 id! 淦, 复制也是技术活, 还不是列文虎克
       // this.$store.dispatch('setFullScreen', true)
       this.setFullScreen(true)
+      this.setSongDetail([id])
+    },
+    selectAllMusic () {
+      this.setFullScreen(true)
+      const ids = this.playlist.map(function (item) {
+        return item.id
+      })
+      this.setSongDetail(ids)
     }
   }
 }

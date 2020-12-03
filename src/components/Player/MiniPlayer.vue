@@ -9,10 +9,13 @@
   <!--      <div class="player-left">-->
         <div class="player-left" @click="showNormalPlayer">
 <!--          <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">-->
-          <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" ref="cd">
+<!--          <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" ref="cd">-->
+          <img :src="currentSong.picUrl" ref="cd">
           <div class="player-title">
-            <h3>演员</h3>
-            <p>薛之谦</p>
+<!--            <h3>silence</h3>-->
+<!--            <p>xhx</p>-->
+            <h3>{{currentSong.name}}</h3>
+            <p>{{currentSong.singer}}</p>
           </div>
         </div>
         <div class="player-right">
@@ -65,7 +68,8 @@ export default {
   computed: {
     ...mapGetters([
       'isShowMiniPlayer',
-      'isPlaying'
+      'isPlaying',
+      'currentSong'
     ])
   },
   watch: {
@@ -106,7 +110,7 @@ export default {
         height: 80px;
         border-radius: 50%;
         margin-right: 20px;
-        animation: sport 3s linear infinite;
+        animation: sport 12s linear infinite;
         animation-play-state: paused;
         &.active{
           animation-play-state: running;
@@ -115,7 +119,7 @@ export default {
       .player-title{
         display: flex;
         flex-direction: column;
-        align-items: center;
+        //align-items: center;
         justify-content: center;
         h3{
           @include font_size($font_medium);

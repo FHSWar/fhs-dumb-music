@@ -4,63 +4,17 @@
     <swiper-slide class="cd">
 <!--      <div class="cd-wrapper">-->
       <div class="cd-wrapper" ref="cdWrapper">
-        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">
+<!--        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">-->
+        <img :src="currentSong.picUrl" alt="">
       </div>
-      <p>号即可都是垃圾放入手机袋</p>
+<!--      <p>everyone's a mess</p>-->
+      <p>{{getFirstLyric()}}</p>
     </swiper-slide>
     <swiper-slide class="lyric">
       <ScrollView>
         <ul>
-          <li>我是第1个li</li>
-          <li>我是第2个li</li>
-          <li>我是第3个li</li>
-          <li>我是第4个li</li>
-          <li>我是第5个li</li>
-          <li>我是第6个li</li>
-          <li>我是第7个li</li>
-          <li>我是第8个li</li>
-          <li>我是第9个li</li>
-          <li>我是第10个li</li>
-          <li>我是第11个li</li>
-          <li>我是第12个li</li>
-          <li>我是第13个li</li>
-          <li>我是第14个li</li>
-          <li>我是第15个li</li>
-          <li>我是第16个li</li>
-          <li>我是第17个li</li>
-          <li>我是第18个li</li>
-          <li>我是第19个li</li>
-          <li>我是第20个li</li>
-          <li>我是第21个li</li>
-          <li>我是第22个li</li>
-          <li>我是第23个li</li>
-          <li>我是第24个li</li>
-          <li>我是第25个li</li>
-          <li>我是第26个li</li>
-          <li>我是第27个li</li>
-          <li>我是第28个li</li>
-          <li>我是第29个li</li>
-          <li>我是第30个li</li>
-          <li>我是第31个li</li>
-          <li>我是第32个li</li>
-          <li>我是第33个li</li>
-          <li>我是第34个li</li>
-          <li>我是第35个li</li>
-          <li>我是第36个li</li>
-          <li>我是第37个li</li>
-          <li>我是第38个li</li>
-          <li>我是第39个li</li>
-          <li>我是第40个li</li>
-          <li>我是第41个li</li>
-          <li>我是第42个li</li>
-          <li>我是第43个li</li>
-          <li>我是第44个li</li>
-          <li>我是第45个li</li>
-          <li>我是第46个li</li>
-          <li>我是第47个li</li>
-          <li>我是第48个li</li>
-          <li>我是第49个li</li>
-          <li>我是第50个li</li>
+<!--          <li>我是1个li</li>-->
+          <li v-for="(value, index) in currentLyric" :key="index">{{value}}</li>
         </ul>
       </ScrollView>
     </swiper-slide>
@@ -98,9 +52,21 @@ export default {
       }
     }
   },
+  methods: {
+    getFirstLyric () {
+      // 这个判空结合 .lyric 的前两行, 解决了歌词无法滚动的 bug
+      if (this.currentLyric) {
+        for (const key in this.currentLyric) {
+          return this.currentLyric[key]
+        }
+      }
+    }
+  },
   computed: {
     ...mapGetters([
-      'isPlaying'
+      'isPlaying',
+      'currentSong',
+      'currentLyric'
     ])
   },
   watch: {
@@ -133,7 +99,7 @@ export default {
       border-radius: 50%;
       border: 30px solid #fff;
       overflow: hidden;
-      animation: sport 8s linear infinite;
+      animation: sport 12s linear infinite;
       animation-play-state: paused;
       &.active{
         animation-play-state: running;
@@ -151,14 +117,16 @@ export default {
     }
   }
   .lyric{
+    height: 96%;
+    overflow: hidden; // lyric 的前两行是自己加的
     ul{ // 花了两个钟, 找到设置 li 的方式
-      height: 96%;
-      overflow: hidden;
       li{
-        text-align: center;
+        height: 100%;
+        //text-align: center;
         @include font_size($font_medium);
-        @include font_color();
-        margin: 10px 0;
+        //@include font_color();
+        color: #f8f8f8;
+        margin: 10px 85px;
         //&:last-of-type{ // 作用是使最后的歌词不被轮播 bullet 挡住
         //  padding-bottom: 100px;
         //}

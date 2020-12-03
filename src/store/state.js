@@ -5,5 +5,9 @@ export default {
   isShowMiniPlayer: true,
   isPlaying: false,
   modeType: mode.loop,
-  isShowListPlayer: false
+  isShowListPlayer: false,
+  songs: [],
+  currentSong: {},
+  currentIndex: 0,
+  currentLyric: {}
 }

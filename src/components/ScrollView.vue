@@ -1,6 +1,11 @@
 <template>
   <div id="wrapper" ref="wrapper">
     <slot></slot>
+    <!--
+    注意点:
+    默认情况下是不能在使用子组件的时候, 给子组件动态的添加内容的
+    如果想在使用子组件的时候, 给子组件动态的添加内容, 那么就必须使用插槽
+    -->
   </div>
 </template>
 
@@ -59,6 +64,11 @@ export default {
         // console.log(this.y)
         fn(this.y)
       })
+    },
+    refresh () {
+      setTimeout(() => {
+        this.iscroll.refresh()
+      }, 100)
     }
   }
 }

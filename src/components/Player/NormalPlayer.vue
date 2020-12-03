@@ -12,7 +12,8 @@
         <PlayerBottom></PlayerBottom>
       </div>
       <div class="player-bg">
-        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">
+<!--        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">-->
+        <img :src="currentSong.picUrl" alt="">
       </div>
     </div>
   </transition>
@@ -22,7 +23,7 @@
 import PlayerHeader from './PlayerHeader'
 import PlayerMiddle from './PlayerMiddle'
 import PlayerBottom from './PlayerBottom'
-import { mapGetters } from 'vuex' // mapGetters, 使用 getter 更方便!
+import { mapGetters, mapActions } from 'vuex' // mapGetters, 使用 getter 更方便!
 import Velocity from 'velocity-animate'
 import 'velocity-animate/velocity.ui'
 
@@ -35,10 +36,14 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'isFullScreen'
+      'isFullScreen',
+      'currentSong'
     ])
   },
   methods: {
+    ...mapActions([
+      'getSongLyric'
+    ]),
     enter (el, done) {
       Velocity(el, 'transition.slideLeftIn', { duration: 250 }, function () {
         done()
@@ -48,6 +53,14 @@ export default {
       Velocity(el, 'transition.slideLeftOut', { duration: 250 }, function () {
         done()
       })
+    }
+  },
+  watch: {
+    currentSong (newValue, oldValue) {
+      if (newValue.id === undefined) {
+        return
+      }
+      this.getSongLyric(newValue.id)
     }
   }
 }
