@@ -1,10 +1,8 @@
 <template>
-<!--  <div class="list-player">-->
   <transition
     :css="false"
     @enter="enter"
     @leave="leave">
-<!--    <div class="list-player" v-show="isShow">-->
     <div class="list-player" v-show="isShowListPlayer">
       <div class="player-wrapper">
         <div class="player-top">
@@ -22,24 +20,16 @@
           </div>
         </div>
         <div class="player-middle">
-<!--          <ScrollView>-->
           <ScrollView ref="scrollView">
-<!--            <ul>-->
             <ul ref="play">
-            <!--              <li class="item">-->
-<!--              <li class="item" v-for="value in songs" :key="value.id">-->
-              <li class="item" v-for="(value, index) in songs" :key="value.id">
+              <li class="item" v-for="(value, index) in songs" :key="value.id" @click="selectMusic(index)">
               <div class="item-left">
-<!--                  <div class="item-play"></div>-->
-<!--                  <div class="item-play" @click="play" ref="play"></div>-->
-                <div class="item-play" @click="play" v-show="currentIndex === index"></div>
-                <!--                  <p>silence</p>-->
+                <div class="item-play" @click.stop="play" v-show="currentIndex === index"></div>
                 <p>{{value.name}}</p>
               </div>
                 <div class="item-right">
                   <div class="item-favorite"></div>
-<!--                  <div class="item-del"></div>-->
-                  <div class="item-del" @click="del(index)"></div>
+                  <div class="item-del" @click.stop="del(index)"></div>
                 </div>
               </li>
             </ul>
@@ -77,7 +67,8 @@ export default {
       'setModeType',
       'setMiniPlayer',
       'setListPlayer',
-      'setDelSong'
+      'setDelSong',
+      'setCurrentIndex'
     ]),
     // show () {
     //   this.isShow = true
@@ -104,6 +95,9 @@ export default {
     },
     delAll () {
       this.setDelSong()
+    },
+    selectMusic (index) {
+      this.setCurrentIndex(index)
     },
     enter (el, done) {
       Velocity(el, 'transition.slideUpIn', { duration: 25 }, function () {

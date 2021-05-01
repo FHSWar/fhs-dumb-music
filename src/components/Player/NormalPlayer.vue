@@ -7,12 +7,11 @@
     @leave="leave">
     <div class="normal-player" v-show="this.isFullScreen">
       <div class="player-wrapper">
-        <PlayerHeader></PlayerHeader>
-        <PlayerMiddle></PlayerMiddle>
-        <PlayerBottom></PlayerBottom>
+        <PlayerHeader/>
+        <PlayerMiddle/>
+        <PlayerBottom :totalTime="totalTime" :currentTime="currentTime"/>
       </div>
       <div class="player-bg">
-<!--        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">-->
         <img :src="currentSong.picUrl" alt="">
       </div>
     </div>
@@ -33,6 +32,18 @@ export default {
     PlayerHeader,
     PlayerMiddle,
     PlayerBottom
+  },
+  props: {
+    totalTime: {
+      type: Number,
+      default: 0,
+      required: true
+    },
+    currentTime: {
+      type: Number,
+      default: 0,
+      required: true
+    }
   },
   computed: {
     ...mapGetters([

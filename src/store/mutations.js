@@ -6,7 +6,9 @@ import {
   SET_LIST_PLAYER,
   SET_SONG_DETAIL,
   SET_SONG_LYRIC,
-  SET_DEL_SONG
+  SET_DEL_SONG,
+  SET_CURRENT_INDEX,
+  SET_CURRENT_TIME
 } from './mutations-type'
 
 export default {
@@ -17,9 +19,17 @@ export default {
    */
   [SET_FULL_SCREEN] (state, flag) {
     state.isFullScreen = flag
+    if (flag) {
+      state.isShowMiniPlayer = false
+      state.isShowListPlayer = false
+    }
   },
   [SET_MINI_PLAYER] (state, flag) {
     state.isShowMiniPlayer = flag
+    if (flag) {
+      state.isFullScreen = false
+      state.isShowListPlayer = false
+    }
   },
   [SET_IS_PLAYING] (state, flag) {
     state.isPlaying = flag
@@ -39,13 +49,31 @@ export default {
   [SET_DEL_SONG] (state, index) {
     if (index !== undefined) {
       state.songs.splice(index, 1)
+      // 不传下标就是一把清空
     } else {
       state.songs = []
     }
+    // 如果删除当前歌曲前面的歌曲, 要维护下 currentIndex 使其存储正确的下标 (也就是减一)
+    if (index < state.currentIndex) {
+      state.currentIndex = state.currentIndex - 1
+    }
+    // 歌都清空了, 就把各种播放器都关关掉
     if (state.songs.length === 0) {
       state.isFullScreen = false
       state.isShowMiniPlayer = false
       state.isShowListPlayer = false
     }
+  },
+  [SET_CURRENT_INDEX] (state, index) {
+    // 处理边界情况
+    if (index < 0) {
+      index = state.songs.length - 1
+    } else if (index > state.songs.length - 1) {
+      index = 0
+    }
+    state.currentIndex = index
+  },
+  [SET_CURRENT_TIME] (state, time) {
+    state.currentTime = time
   }
 }

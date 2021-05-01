@@ -126,7 +126,7 @@ export default {
         @include font_size($font_medium);
         //@include font_color();
         color: #f8f8f8;
-        margin: 10px 85px;
+        margin: 15px 85px;
         //&:last-of-type{ // 作用是使最后的歌词不被轮播 bullet 挡住
         //  padding-bottom: 100px;
         //}
