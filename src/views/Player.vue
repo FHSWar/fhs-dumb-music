@@ -13,7 +13,7 @@ import MiniPlayer from '../components/Player/MiniPlayer'
 import ListPlayer from '@/components/Player/ListPlayer'
 import { mapGetters, mapActions } from 'vuex'
 import mode from '../store/modeType'
-import { getRandomIntInclusive, setLocalStorage, getLocalStorage } from '../tools/tools'
+import { getRandomIntInclusive, setLocalStorage, getLocalStorage } from '@/tools/tools'
 
 export default {
   name: 'Player',

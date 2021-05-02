@@ -1,36 +1,39 @@
+<!-- no more needed -->
 <template>
   <div class="song">
     <div class="song-top">
       <h3>最新音乐</h3>
     </div>
-    <ul class="song-list">
-<!--      <li v-for="value in songs" :key="value.id" class="item">-->
-<!--      <li v-for="value in songs" :key="value.id" class="item" @click="selectMusic">-->
+    <SongListItem :songs="songs"/>
+<!--    <ul class="song-list">
       <li v-for="value in songs" :key="value.id" class="item" @click="selectMusic(value.id)">
-      <!-- <img :src="value.song.album.picUrl" alt=""> -->
         <img v-lazy="value.song.album.picUrl" alt="">
         <div>
           <h3>{{value.name}}</h3>
           <p>{{value.song.artists[0].name}}</p>
         </div>
       </li>
-    </ul>
+    </ul>-->
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
+import SongListItem from './Home-SongListItem'
 
 export default {
   name: 'SongList',
+  components: {
+    SongListItem
+  },
   props: {
     songs: {
       type: Array,
       default: () => [],
       required: true
     }
-  },
-  methods: {
+  }
+/*  methods: {
     ...mapActions([
       'setFullScreen',
       'setSongDetail'
@@ -40,7 +43,7 @@ export default {
       this.setFullScreen(true)
       this.setSongDetail([id])
     }
-  }
+  } */
 }
 </script>
 
@@ -79,7 +82,7 @@ export default {
       @include font_color();
     }
   }
-  .song-list{
+  /*.song-list{
     width: 100%;
     overflow: hidden;
     .item{
@@ -109,6 +112,6 @@ export default {
         }
       }
     }
-  }
+  }*/
 }
 </style>

@@ -226,6 +226,7 @@ export default {
         padding: 0 20px;
         box-sizing: border-box;
         .item-left{
+          width: 70%;
           display: flex;
           align-items: center;
           .item-play{
@@ -239,8 +240,10 @@ export default {
             //}
           }
           p{
+            width: 80%;
             @include font_size($font_medium_s);
             @include font_color();
+            @include no-wrap();
           }
         }
         .item-right{
