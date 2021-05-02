@@ -13,6 +13,7 @@ import MiniPlayer from '../components/Player/MiniPlayer'
 import ListPlayer from '@/components/Player/ListPlayer'
 import { mapGetters, mapActions } from 'vuex'
 import mode from '../store/modeType'
+import { getRandomIntInclusive, setLocalStorage, getLocalStorage } from '../tools/tools'
 
 export default {
   name: 'Player',
@@ -35,13 +36,16 @@ export default {
       'curTime',
       'modeType',
       'songs',
-      'favoriteList'
+      'favoriteList',
+      'historyList'
     ])
   },
   methods: {
     ...mapActions([
       'setCurrentIndex',
-      'setFavoriteList'
+      'setFavoriteList',
+      'setHistorySong',
+      'setHistoryList'
     ]),
     timeupdate (e) {
     // console.log(e.target.currentTime)
@@ -53,18 +57,14 @@ export default {
       } else if (this.modeType === mode.one) {
         this.$refs.audio.play()
       } else if (this.modeType === mode.random) {
-        const index = this.getRandomIntInclusive(0, this.songs.length - 1)
+        const index = getRandomIntInclusive(0, this.songs.length - 1)
         this.setCurrentIndex(index)
       }
-    },
-    getRandomIntInclusive (min, max) {
-      min = Math.ceil(min)
-      max = Math.floor(max)
-      return Math.floor(Math.random() * (max - min + 1)) + min // 含最大值，含最小值
     }
   },
   watch: {
     isPlaying (newValue, _) {
+      this.setHistorySong(this.currentSong)
       if (newValue) {
         this.$refs.audio.play()
       } else {
@@ -75,6 +75,7 @@ export default {
       this.$refs.audio.oncanplay = () => {
         this.totalTime = this.$refs.audio.duration
         if (this.isPlaying) {
+          this.setHistorySong(this.currentSong)
           this.$refs.audio.play()
         } else {
           this.$refs.audio.pause()
@@ -87,15 +88,25 @@ export default {
     favoriteList (newValue, _) {
       // 正经流程应该要存到服务器, 网易云 api 没提供这个接口, 所以用 localStorage 凑合一下
       // localStorage 只能存储字符串
-      window.localStorage.setItem('favoriteList', JSON.stringify(newValue))
+      // window.localStorage.setItem('favoriteList', JSON.stringify(newValue))
+      setLocalStorage('favoriteList', newValue)
+    },
+    historyList (newValue, oldValue) {
+      // window.localStorage.setItem('historyList', JSON.stringify(newValue))
+      setLocalStorage('historyList', newValue)
     }
   },
   created () {
     // 从 loaalStorage 里面拿出来放进 vuex 里
-    const list = JSON.parse(window.localStorage.getItem('favoriteList'))
+    // const favoriteList = JSON.parse(window.localStorage.getItem('favoriteList'))
+    const favoriteList = getLocalStorage('favoriteList')
     // 取空不行, 因为初始值得是个空数组而非 null
-    if (list === null) { return }
-    this.setFavoriteList(list)
+    if (favoriteList === null) { return }
+    this.setFavoriteList(favoriteList)
+    // const historyList = JSON.parse(window.localStorage.getItem('historyList'))
+    const historyList = getLocalStorage('historyList')
+    if (historyList === null) { return }
+    this.setHistoryList(historyList)
   },
   mounted () {
     this.$refs.audio.oncanplay = () => {

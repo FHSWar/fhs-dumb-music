@@ -11,5 +11,6 @@ export default {
   currentIndex: 0,
   currentLyric: {},
   currentTime: 0,
-  favoriteList: []
+  favoriteList: [],
+  historyList: []
 }
