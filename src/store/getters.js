@@ -36,5 +36,8 @@ export default {
   },
   curTime (state) {
     return state.currentTime
+  },
+  favoriteList  (state) {
+    return state.favoriteList
   }
 }

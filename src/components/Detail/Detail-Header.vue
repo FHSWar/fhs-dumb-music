@@ -65,7 +65,7 @@ export default {
     @include bg_img('../../assets/images/more')
   }
   .header-title{
-    width: 60%; // 不做限制的话, 一旦标题太长看起来就很丑
+    width: 60%; // 不做限制的话, 一旦标题太长看起来就很丑 (老师后来也加上了 hhhh)
     text-align: center;
     line-height: 100px;
     color: #fff;

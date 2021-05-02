@@ -28,8 +28,8 @@
                 <p>{{value.name}}</p>
               </div>
                 <div class="item-right">
-                  <div class="item-favorite"></div>
-                  <div class="item-del" @click.stop="del(index)"></div>
+                  <div class="item-favorite" @click.stop="favorite(value)" :class="{'active': isFavorite(value)}"/>
+                  <div class="item-del" @click.stop="del(index)"/>
                 </div>
               </li>
             </ul>
@@ -65,10 +65,10 @@ export default {
     ...mapActions([
       'setIsPlaying',
       'setModeType',
-      'setMiniPlayer',
       'setListPlayer',
       'setDelSong',
-      'setCurrentIndex'
+      'setCurrentIndex',
+      'setFavoriteSong'
     ]),
     // show () {
     //   this.isShow = true
@@ -76,7 +76,6 @@ export default {
     hidden () {
       // this.isShow = false
       this.setListPlayer(false)
-      this.setMiniPlayer(true)
     },
     play () {
       this.setIsPlaying(!this.isPlaying)
@@ -99,6 +98,15 @@ export default {
     selectMusic (index) {
       this.setCurrentIndex(index)
     },
+    favorite (value) {
+      this.setFavoriteSong(value)
+    },
+    isFavorite (song) {
+      const result = this.favoriteList.find(function (currentValue) {
+        return currentValue.id === song.id
+      })
+      return result !== undefined
+    },
     enter (el, done) {
       Velocity(el, 'transition.slideUpIn', { duration: 25 }, function () {
         done()
@@ -116,7 +124,8 @@ export default {
       'modeType',
       'isShowListPlayer',
       'songs',
-      'currentIndex'
+      'currentIndex',
+      'favoriteList'
     ])
   },
   watch: {
@@ -240,7 +249,10 @@ export default {
           .item-favorite{
             width: 56px;
             height: 56px;
-            @include bg_img('../../assets/images/small_favorite')
+            @include bg_img('../../assets/images/small_un_favorite');
+            &.active{
+              @include bg_img('../../assets/images/small_favorite');
+            }
           }
           .item-del{
             width: 52px;

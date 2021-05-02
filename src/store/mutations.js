@@ -8,7 +8,9 @@ import {
   SET_SONG_LYRIC,
   SET_DEL_SONG,
   SET_CURRENT_INDEX,
-  SET_CURRENT_TIME
+  SET_CURRENT_TIME,
+  SET_FAVORITE_SONG,
+  SET_FAVORITE_LIST
 } from './mutations-type'
 
 export default {
@@ -75,5 +77,16 @@ export default {
   },
   [SET_CURRENT_TIME] (state, time) {
     state.currentTime = time
+  },
+  [SET_FAVORITE_SONG]  (state, song) {
+    const result = state.favoriteList.find(function (currentValue) {
+      return currentValue === song
+    })
+    if (result === undefined) {
+      state.favoriteList.push(song)
+    }
+  },
+  [SET_FAVORITE_LIST] (state, list) {
+    state.favoriteList = list
   }
 }

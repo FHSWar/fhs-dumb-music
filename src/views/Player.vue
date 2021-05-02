@@ -34,12 +34,14 @@ export default {
       'currentIndex',
       'curTime',
       'modeType',
-      'songs'
+      'songs',
+      'favoriteList'
     ])
   },
   methods: {
     ...mapActions([
-      'setCurrentIndex'
+      'setCurrentIndex',
+      'setFavoriteList'
     ]),
     timeupdate (e) {
     // console.log(e.target.currentTime)
@@ -81,7 +83,19 @@ export default {
     },
     curTime (newValue, _) {
       this.$refs.audio.currentTime = newValue
+    },
+    favoriteList (newValue, _) {
+      // 正经流程应该要存到服务器, 网易云 api 没提供这个接口, 所以用 localStorage 凑合一下
+      // localStorage 只能存储字符串
+      window.localStorage.setItem('favoriteList', JSON.stringify(newValue))
     }
+  },
+  created () {
+    // 从 loaalStorage 里面拿出来放进 vuex 里
+    const list = JSON.parse(window.localStorage.getItem('favoriteList'))
+    // 取空不行, 因为初始值得是个空数组而非 null
+    if (list === null) { return }
+    this.setFavoriteList(list)
   },
   mounted () {
     this.$refs.audio.oncanplay = () => {

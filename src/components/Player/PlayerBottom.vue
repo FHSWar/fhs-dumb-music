@@ -2,7 +2,7 @@
   <div class="player-bottom">
     <div class="bottom-progress" @click="progressClick">
       <span ref="eleCurrentTime">00:00</span>
-      <div class="progress-bar">
+      <div class="progress-bar" @click="progressClick" ref="progressBar">
         <div class="progress-line" ref="progressLine">
           <div class="progress-dot"></div>
         </div>
@@ -15,7 +15,7 @@
       <div class="prev" @click="prev"></div>
       <div class="play" @click="play" ref="play"></div>
       <div class="next" @click="next"></div>
-      <div class="favorite"></div>
+      <div class="favorite" @click="favorite" :class="{'active' :isFavorite(currentSong)}"></div>
     </div>
   </div>
 </template>
@@ -43,7 +43,8 @@ export default {
       'setIsPlaying',
       'setModeType',
       'setCurrentIndex',
-      'setCurrentTime'
+      'setCurrentTime',
+      'setFavoriteSong'
     ]),
     play () {
       this.setIsPlaying(!this.isPlaying)
@@ -65,15 +66,29 @@ export default {
     },
     progressClick (e) {
       // 1.计算进度条的位置
-      const normalLeft = e.target.offsetLeft
+      // let normalLeft = e.target.offsetLeft
+      const normalLeft = this.$refs.progressBar.offsetLeft
       const eventLeft = e.pageX
       const clickLeft = eventLeft - normalLeft
-      const progressWidth = e.target.offsetWidth
+      // let progressWidth = e.target.offsetWidth
+      const progressWidth = this.$refs.progressBar.offsetWidth
       const value = clickLeft / progressWidth
       this.$refs.progressLine.style.width = value * 100 + '%'
+
       // 2.计算当前应该从什么地方开始播放
       const currentTime = this.totalTime * value
+      // console.log(currentTime)
       this.setCurrentTime(currentTime)
+    },
+    favorite () {
+      this.setFavoriteSong(this.currentSong)
+    },
+    isFavorite (song) {
+      const result = this.favoriteList.find(function (currentValue) {
+        // 判断对象不合适, 判断简单值, 比如对象中的 id 才是恰当的
+        return currentValue.id === song.id
+      })
+      return result !== undefined
     },
     formatTime (time) {
       // 2.得到两个时间之间的差值(秒)
@@ -102,7 +117,9 @@ export default {
     ...mapGetters([
       'isPlaying',
       'modeType',
-      'currentIndex'
+      'currentIndex',
+      'currentSong',
+      'favoriteList'
     ])
   },
   watch: {
@@ -221,6 +238,9 @@ export default {
     }
     .favorite{
       @include bg_img('../../assets/images/un_favorite');
+      &.active{
+        @include bg_img('../../assets/images/favorite');
+      }
     }
   }
 }

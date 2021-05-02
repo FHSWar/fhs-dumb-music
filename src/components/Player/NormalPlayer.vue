@@ -8,7 +8,7 @@
     <div class="normal-player" v-show="this.isFullScreen">
       <div class="player-wrapper">
         <PlayerHeader/>
-        <PlayerMiddle/>
+        <PlayerMiddle :currentTime="currentTime"/>
         <PlayerBottom :totalTime="totalTime" :currentTime="currentTime"/>
       </div>
       <div class="player-bg">
@@ -67,7 +67,7 @@ export default {
     }
   },
   watch: {
-    currentSong (newValue, oldValue) {
+    currentSong (newValue, _) {
       if (newValue.id === undefined) {
         return
       }

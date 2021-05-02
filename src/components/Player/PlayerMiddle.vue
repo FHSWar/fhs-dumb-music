@@ -1,24 +1,22 @@
 <template>
   <swiper :options="swiperOption" class="banner">
-    <!-- slides -->
     <swiper-slide class="cd">
-<!--      <div class="cd-wrapper">-->
       <div class="cd-wrapper" ref="cdWrapper">
-<!--        <img src="https://y.gtimg.cn/music/photo_new/T002R300x300M000003y8dsH2wBHlo.jpg" alt="">-->
         <img :src="currentSong.picUrl" alt="">
       </div>
-<!--      <p>everyone's a mess</p>-->
       <p>{{getFirstLyric()}}</p>
     </swiper-slide>
-    <swiper-slide class="lyric">
-      <ScrollView>
+    <swiper-slide class="lyric" ref="lyric">
+      <ScrollView ref="scrollView">
         <ul>
-<!--          <li>我是1个li</li>-->
-          <li v-for="(value, index) in currentLyric" :key="index">{{value}}</li>
+          <li v-for="(value, key) in currentLyric"
+              :key="key"
+              :class="{'active' :currentLineNum === key}"> <!-- 这个意思是只在 this.currentLineNum 为 key 时才高亮 -->
+            {{value}}
+          </li>
         </ul>
       </ScrollView>
     </swiper-slide>
-    <!-- Optional controls -->
     <div class="swiper-pagination"  slot="pagination"></div>
   </swiper>
 </template>
@@ -37,6 +35,13 @@ export default {
     swiperSlide,
     ScrollView
   },
+  props: {
+    currentTime: {
+      type: Number,
+      default: 0,
+      required: true
+    }
+  },
   data () {
     return {
       swiperOption: {
@@ -49,16 +54,36 @@ export default {
         observer: true,
         observeParents: true,
         observeSlideChildren: true
-      }
+      },
+      currentLineNum: '0'
     }
   },
-  methods: {
-    getFirstLyric () {
-      // 这个判空结合 .lyric 的前两行, 解决了歌词无法滚动的 bug
-      if (this.currentLyric) {
-        for (const key in this.currentLyric) {
-          return this.currentLyric[key]
-        }
+  watch: {
+    isPlaying (newValue, oldValue) {
+      if (newValue) {
+        this.$refs.cdWrapper.classList.add('active')
+      } else {
+        this.$refs.cdWrapper.classList.remove('active')
+      }
+    },
+    currentTime (newValue, _) {
+      // 1.高亮歌词同步
+      const lineNum = Math.floor(newValue)
+      this.currentLineNum = this.getActiveLineNum(lineNum)
+      // 2.歌词滚动同步
+      const currentLyricTop = document.querySelector('li.active').offsetTop
+      const lyricHeight = this.$refs.lyric.$el.offsetHeight
+      if (currentLyricTop > lyricHeight / 2) {
+        this.$refs.scrollView.scrollTo(0, lyricHeight / 2 - currentLyricTop, 100)
+        // 如果当前高亮的不大于一半, 就要滚回最初的位置
+      } else {
+        this.$refs.scrollView.scrollTo(0, 0, 100)
+      }
+    },
+    currentLyric (newValue, _) {
+      for (const key in newValue) {
+        this.currentLineNum = key
+        return
       }
     }
   },
@@ -69,12 +94,25 @@ export default {
       'currentLyric'
     ])
   },
-  watch: {
-    isPlaying (newValue, oldValue) {
-      if (newValue) {
-        this.$refs.cdWrapper.classList.add('active')
+  methods: {
+    getFirstLyric () {
+      for (const key in this.currentLyric) {
+        return this.currentLyric[key]
+      }
+    },
+    getActiveLineNum (lineNum) {
+      // 如果初始值值为零且歌词中没有 '0' 这个键, 取到的 result 就是 undefined, 会导致一直 line--
+      if (lineNum < 0) {
+        return this.currentLineNum
+      }
+      const result = this.currentLyric[lineNum + '']
+      // 递归: 如果有些行没有歌词就一直往上翻, 翻到上面离得最近的有歌词的那一行去
+      // 解决了由于某些时间没有对应的歌词而在点击进度条时没有跳到对应歌词部分的 bug
+      if (result === undefined || result === '') {
+        lineNum--
+        return this.getActiveLineNum(lineNum)
       } else {
-        this.$refs.cdWrapper.classList.remove('active')
+        return lineNum + ''
       }
     }
   }
@@ -125,11 +163,15 @@ export default {
         //text-align: center;
         @include font_size($font_medium);
         //@include font_color();
-        color: #f8f8f8;
+        color: #ccc;
         margin: 15px 85px;
-        //&:last-of-type{ // 作用是使最后的歌词不被轮播 bullet 挡住
-        //  padding-bottom: 100px;
-        //}
+          //&:last-of-type{ // 作用是使最后的歌词不被轮播 bullet 挡住
+          //  padding-bottom: 100px;
+          //}
+        // 伪类用电嗷! 在 html 标签中只需要写 class="active" 就好了
+        &.active{
+          color: #fff
+        }
       }
     }
   }
