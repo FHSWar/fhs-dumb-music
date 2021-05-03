@@ -15,7 +15,7 @@
       <div class="prev" @click="prev"></div>
       <div class="play" @click="play" ref="play"></div>
       <div class="next" @click="next"></div>
-      <div class="favorite" @click="favorite" :class="{'active' :isFavorite(currentSong)}"></div>
+      <div class="favorite" @click="favorite" :class="{'active': isFavorite(currentSong)}"></div>
     </div>
   </div>
 </template>

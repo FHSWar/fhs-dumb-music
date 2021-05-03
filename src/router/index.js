@@ -9,34 +9,22 @@ import VueRouter from 'vue-router'
 
 // 实现Vue组件的按需加载
 const Recommend = (resolve) => {
-  import('../views/Home-Recommend').then((module) => {
-    resolve(module)
-  })
+  import('../views/Home-Recommend').then((module) => resolve(module))
 }
 const Detail = (resolve) => {
-  import('../views/Detail-SongList').then((module) => {
-    resolve(module)
-  })
+  import('../views/Detail-SongList').then((module) => resolve(module))
 }
 const Singer = (resolve) => {
-  import('../views/Home-Singer').then((module) => {
-    resolve(module)
-  })
+  import('../views/Home-Singer').then((module) => resolve(module))
 }
 const Rank = (resolve) => {
-  import('../views/Home-Rank').then((module) => {
-    resolve(module)
-  })
+  import('../views/Home-Rank').then((module) => resolve(module))
 }
 const Search = (resolve) => {
-  import('../views/Home-Search').then((module) => {
-    resolve(module)
-  })
+  import('../views/Home-Search').then((module) => resolve(module))
 }
 const Account = (resolve) => {
-  import('../views/Account').then((module) => {
-    resolve(module)
-  })
+  import('../views/Account').then((module) => resolve(module))
 }
 
 Vue.use(VueRouter)
@@ -57,7 +45,18 @@ const routes = [
   { path: '/singer', component: Singer },
   { path: '/rank', component: Rank },
   { path: '/search', component: Search },
-  { path: '/account', component: Account }
+  { path: '/account', component: Account },
+  {
+    path: '/singer',
+    component: Singer,
+    children: [
+      {
+        // 第二个值是 type, 这冒号写法不如 query 舒服
+        path: 'detail/:id/:type',
+        component: Detail
+      }
+    ]
+  }
 ]
 
 const router = new VueRouter({

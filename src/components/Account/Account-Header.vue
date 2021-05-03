@@ -2,8 +2,8 @@
   <div class="header" @click="changeTheme">
     <div class="header-left" @click.stop="back"></div>
     <ul class="header-title">
-      <li :class="{'active' : switchNum === 0}" @click.stop="switchItem(0)">我喜欢的</li>
-      <li :class="{'active' : switchNum === 1}" @click.stop="switchItem(1)">最近听的</li>
+      <li :class="{'active': switchNum === 0}" @click.stop="switchItem(0)">我喜欢的</li>
+      <li :class="{'active': switchNum === 1}" @click.stop="switchItem(1)">最近听的</li>
     </ul>
     <div class="header-right"></div>
   </div>

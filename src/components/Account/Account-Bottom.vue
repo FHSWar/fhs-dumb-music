@@ -42,6 +42,7 @@ export default {
       'setSongDetail',
       'setCurrentIndex'
     ]),
+    // 傻仔编辑起认不出这种用法, 警告 CAN_NOT_RESOLVEXXX
     ...mapMutations([
       'SET_SONG_DETAIL'
     ]),

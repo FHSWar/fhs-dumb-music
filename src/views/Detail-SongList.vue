@@ -3,7 +3,7 @@
     <SubHeader :title="playlist.name"></SubHeader>
     <DetailTop :path="playlist.coverImgUrl" ref="top"></DetailTop>
     <div class="bottom">
-      <ScrollView ref="scrollview">
+      <ScrollView ref="scrollView">
         <DetailBottom :playlist="playlist.tracks"></DetailBottom>
       </ScrollView>
     </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getPlayList, getAlbum } from '@/api'
+import { getPlayList, getAlbum, getArtistsSongs } from '@/api'
 import ScrollView from '@/components/ScrollView'
 import SubHeader from '@/components/Detail/Detail-Header'
 import DetailTop from '@/components/Detail/Detail-Top'
@@ -55,12 +55,24 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    } else if (this.$route.params.type === 'singer') {
+      getArtistsSongs({ id: this.$route.params.id })
+        .then((data) => {
+          this.playlist = {
+            name: data.artist.name,
+            coverImgUrl: data.artist.picUrl,
+            tracks: data.hotSongs
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted () {
     const defaultHeight = this.$refs.top.$el.offsetHeight // 通过 组件.$ef 能拿到组件的根元素
     // console.log(defaultHeight)
-    this.$refs.scrollview.scrolling((offsetY) => {
+    this.$refs.scrollView.scrolling((offsetY) => {
       // console.log(offsetY)
       if (offsetY < 0) {
         // console.log('向上滚动')

@@ -72,7 +72,15 @@ export default {
       }
     },
     currentIndex () {
-      this.$refs.audio.oncanplay = () => {
+      /*
+      注意点: 在 iOS 中系统不会自动加载歌曲, 所以 oncanplay 不会自动执行
+              https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/AudioandVideoTagBasics/AudioandVideoTagBasics.html
+              在PC端和Android端, 系统会自动加载歌曲, 所以 oncanplay 会自动被执行
+      解决方案: 如何监听 iOS 中 Audio 的歌曲是否已经准备好了, 通过 ondurationchange 事件来监听
+                ondurationchange 事件什么时候执行: 当歌曲加载完成之后执行, 因为只有歌曲加载完成之后才能获取到歌曲的总时长
+      */
+      // this.$refs.audio.oncanplay = () => {
+      this.$refs.audio.ondurationchange = () => {
         this.totalTime = this.$refs.audio.duration
         if (this.isPlaying) {
           this.setHistorySong(this.currentSong)
@@ -109,7 +117,8 @@ export default {
     this.setHistoryList(historyList)
   },
   mounted () {
-    this.$refs.audio.oncanplay = () => {
+    // this.$refs.audio.oncanplay = () => {
+    this.$refs.audio.ondurationchange = () => {
       this.totalTime = this.$refs.audio.duration
     }
   }

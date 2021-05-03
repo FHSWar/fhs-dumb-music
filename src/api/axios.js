@@ -1,8 +1,9 @@
+// 这里我将 axios 包装一层后, 到处去用时仍叫 axios
 import axios from 'axios'
 
-// 进行一些全局配置
+// 进行一些全局配置 (傻仔 IDE 提示 http 不安全) (这还是松金老哥帮改的)
 axios.defaults.baseURL = `http://${location.hostname}:3000/`
-axios.defaults.timeout = 3000
+axios.defaults.timeout = 5000
 
 // 封装自己的get/post方法
 export default { // 这里 get 和 post 唯一区别就是 axios 对象调的方法不同
@@ -27,6 +28,19 @@ export default { // 这里 get 和 post 唯一区别就是 axios 对象调的方
         })
         .catch(function (error) {
           reject(error)
+        })
+    })
+  },
+  // 第一个应用就是在歌手 tab 拿到 A 到 Z 的列表
+  all: function (list) {
+    return new Promise(function (resolve, reject) {
+      axios.all(list)
+        .then(axios.spread(function (...result) {
+          // 两个请求现在都执行完成
+          resolve(result)
+        }))
+        .catch(function (err) {
+          reject(err)
         })
     })
   }

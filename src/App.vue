@@ -1,21 +1,21 @@
 <template>
   <div id="app" class="wrapper" ref="wrapper">
-    <Header></Header>
-    <Tabbar></Tabbar>
-    <router-view></router-view> <!-- 不给路由出口哪有得显示啊弟弟 -->
-    <Player></Player>
+    <Header/>
+    <TabBar/>
+    <router-view/> <!-- 不给路由出口哪有得显示啊弟弟 -->
+    <Player/>
   </div>
 </template>
 <script>
 import Header from './components/Home/Home-Header'
-import Tabbar from './components/Home/Home-TabBar'
+import TabBar from './components/Home/Home-TabBar'
 import Player from './views/Player'
 
 export default {
   name: 'App',
   components: {
     Header,
-    Tabbar,
+    TabBar,
     Player
   }
 }
