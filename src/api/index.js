@@ -139,3 +139,5 @@ export const getTopListDetail = () => {
   })
 }
 export const getTopList = (data) => axios.get('top/list', data)
+export const getSearchList = (data) => axios.get('search?type=1', data)
+export const getSearchHot = () => axios.get('search/hot')

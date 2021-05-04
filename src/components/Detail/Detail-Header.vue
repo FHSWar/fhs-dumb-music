@@ -1,28 +1,36 @@
 <template>
-  <div class="header" @click="changeTheme">
+<!--  template<div class="header" @click="changeTheme">
     <div class="header-left" @click.stop="back"></div>
     <p class="header-title">{{title}}</p>
     <div class="header-right"></div>
-  </div>
+  </div>-->
+  <Header class="header">
+    <div slot="left" class="header-left" @click.stop="back"></div>
+    <p slot="center" class="header-title">{{title}}</p>
+    <div slot="right" class="header-right"></div>
+  </Header>
 </template>
 
 <script>
+import Header from '../Home/Home-Header'
 export default {
   name: 'SubHeader',
-  data () {
+  components: {
+    Header
+  },
+  /* data () {
     return {
       themes: ['theme', 'theme1', 'theme2'],
       index: 0
     }
-  },
+  }, */
   methods: {
-    changeTheme () {
+    /* changeTheme () {
       this.index++
       if (this.index >= this.themes.length) {
         this.index = 0
       }
-      document.documentElement.setAttribute('data-theme', this.themes[this.index])
-    },
+    }, */
     back () {
       window.history.back()
     }
@@ -41,9 +49,9 @@ export default {
 @import "../../assets/css/variable";
 @import "../../assets/css/mixin";
 .header{
-  width: 100%;
+ /* width: 100%;
   height: 100px;
-  /*background: #f00;*/
+  !*background: #f00;*!
   @include bg_color();
   display: flex;
   justify-content: space-between;
@@ -52,15 +60,15 @@ export default {
   .header-left, .header-right{
     width: 48px;
     height: 48px;
-    /*background: #000;*/
-  }
+    !*background: #000;*!
+  }*/
   .header-left{
-    margin-top: 21px;
+    //margin-top: 21px;
     padding-left: 15px;
     @include bg_img('../../assets/images/back');
   }
   .header-right{
-    margin-top: 24px;
+    //margin-top: 24px;
     padding-right: 10px;
     @include bg_img('../../assets/images/more')
   }
