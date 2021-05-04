@@ -10,8 +10,10 @@
 <script>
 import AccountHeader from '../components/Account/Account-Header'
 import AccountBottom from '../components/Account/Account-Bottom'
+import MetaInfo from '../../vue-meta-info'
 export default {
   name: 'Account',
+  metaInfo: MetaInfo.account,
   components: {
     AccountHeader,
     AccountBottom

@@ -44,9 +44,11 @@ import SongList from '../components/Home/Home-SongList'
 import ScrollView from '../components/ScrollView'
 import Velocity from 'velocity-animate'
 import 'velocity-animate/velocity.ui'
+import MetaInfo from '../../vue-meta-info'
 
 export default {
   name: 'Recommend',
+  metaInfo: MetaInfo.recommend,
   components: {
     Banner,
     Personalized,

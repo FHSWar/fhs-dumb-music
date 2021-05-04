@@ -16,9 +16,11 @@ import ScrollView from '@/components/ScrollView'
 import SubHeader from '@/components/Detail/Detail-Header'
 import DetailTop from '@/components/Detail/Detail-Top'
 import DetailBottom from '@/components/Detail/Detail-SongListBottom'
+import MetaInfo from '../../vue-meta-info'
 
 export default {
   name: 'Detail',
+  metaInfo: MetaInfo.detail,
   components: {
     SubHeader,
     DetailTop,
